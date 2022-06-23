@@ -1,0 +1,97 @@
+<html>
+
+
+<script src="jquery-3.5.1.min.js"></script>
+<script>//our scrip will come here 
+$(document).ready(function()
+{
+console.log("no more sins");
+$("#b2").click(function () 
+	{ 
+		//console.log("jquery works");
+		alert("jquery works")
+
+		let input={b2:$('#b2').val}
+
+		let parameterfunction={
+			data: input,
+			url:'http//localhost:8081/getbookid',
+			type:'get',
+			datatype:'json',
+			sucsess: function(datafromserver){
+				console.log('data fetch succesfully');
+				console.log('datatransfer');
+				if(datafromserver.status==true){
+					$('#book').value(datafromserver.dtaile.bookid);
+					$('#mesg').text("bookid is found")
+
+				}
+				else{
+					$('#book').value("");
+					$('#mesg').text("bookid not found");
+				}
+			},
+			error:function(errorfromserver){
+				console.log('some error occured'+errorfromserver);
+			}
+		}
+		$.ajax(parameterfunction);
+});
+
+$('#update').click(()=> {
+	console.log("update button clicked");
+
+	let input={book:$('#book').val(), price: $('#b2').value()}
+	let parameterotherfunction={
+		data: input,
+			url:'http//localhost:8081/getprice',
+			type:'post',
+			datatype:'json',
+			sucsess: function(datafromserver){
+				console.log('data fetch succesfully');
+				console.log('datatransfer');
+				if(datafromserver.status==true){
+
+					$('#mesg').text("price is updated");
+				}
+				else{
+					$('#b2').value("");
+					$('#mesg').text("price not found");
+				}
+			},
+			error:function(errorfromserver){
+				console.log('some error occured'+errorfromserver);
+			}
+		}
+		$.ajax(parameterotherfunction);
+});
+});
+
+
+</script>
+<body>
+
+	<form action="getbookid" method="get">
+	<Br/>Book id<input type="text" name="book"/>
+	<input type="submit" value="get"/>
+	<span id="mesg"></span>
+	</form>
+	
+	
+	<form action="getbookname" method="post">
+	<Br/>book name<input type="text" name="b2"/>
+	<input type="submit" value="post"/>
+	</form>
+
+	<form action="getprice" method="get">
+		<Br/>price<input type="text" name="b2"/>
+		<input type="submit" value=""/>
+	</form>
+	
+	<input type="button" name="update" id="update" placeholder="update book" value="update">
+	
+	
+	</body>
+
+
+</html>
